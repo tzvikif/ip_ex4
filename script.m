@@ -21,6 +21,10 @@ averaged = averaged(r+1,r+1);
 Fim(u(1),v(1)) = averaged;
 averaged2 = conj(averaged);
 Fim(u(2),v(2)) = averaged2;
+fprintf('After cleaning 2 points.\n');
+showImage(ifft2(Fim));
+showFFT(Fim);
+mypause;
 % i found that those are the frequency is at:
 u1 = 20;v1 = 226;
 u2 = 238;v2 = 32;
@@ -28,7 +32,7 @@ averaged = cleanImageMean(Fim(u1(1)-r:u1(1)+r,v1(1)-r:v1(1)+r),r,2);
 averaged = averaged(r+1,r+1);
 Fim(u1,v1) = averaged;
 Fim(u2,v2) = conj(averaged);
-
+fprintf('After cleaning 4 points.\n');
 showFFT(Fim);
 cleanedIm = ifft2(Fim);
 showImage(cleanedIm);
