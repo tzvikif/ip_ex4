@@ -1,8 +1,9 @@
 %%authors: דפנה קופל 209051036 , צבי פישר 037580644
-%%
+%% wolf.tif
 close all;
 clear;
 im = readImage('wolf.tif');
+showImage(im);
 Fim = fft2(im);
 showFFT(Fim);
 fprintf('as we can see there are 4 points of interest.\n');
@@ -36,4 +37,56 @@ fprintf('After cleaning 4 points.\n');
 showFFT(Fim);
 cleanedIm = ifft2(Fim);
 showImage(cleanedIm);
-%%
+%% lateShow
+close all;
+clear;
+im = readImage('lateShow.tif');
+showImage(im);
+
+% find image dimentions.
+rmax = size(im,1);
+cmax = size(im,2);
+[r,c] = find(im);
+ul = [min(r),min(c)];   %upper left point
+br = [max(r),max(c)];   %bottom right point
+smallIm = im(ul(1):br(1),ul(2):br(2));
+showImage(smallIm);
+smallImRowSize = size(smallIm,1);
+smallImColSize = size(smallIm,2);
+tFim = fft2( smallIm );
+
+% padd with zeros
+Fim = zeros(rmax,cmax);
+shifted = fftshift(Fim);
+
+
+
+
+
+
+
+%Fim(ul(1):br(1),-ul(2):br(2)) = tFim;
+Fim(1:smallImRowSize/2,1:smallImColSize/2) = tFim(smallImRowSize/2+1:smallImRowSize,smallImColSize/2+1:smallImColSize);
+%Fim(rmax-smallImRowSize/2+1:rmax,1:smallImColSize/2) = tFim(1:smallImRowSize/2,1:smallImColSize/2);
+%Fim(1:smallImRowSize/2,cmax-smallImColSize/2+1:cmax) = ... 
+%    tFim(smallImRowSize/2+1:smallImRowSize,1:smallImColSize/2);
+Fim(rmax-smallImRowSize/2+1:rmax,cmax-smallImColSize/2+1:cmax) = ...
+    tFim(1:smallImRowSize/2,1:smallImColSize/2);
+
+showFFT(tFim);
+showFFT(Fim);
+
+extractedIm = ifft2(Fim);
+showImage(extractedIm);
+%% windows.tif
+%{
+Assuming gaussian noise without blurring.
+%}
+alpha = 0.6;
+std = 10;
+radius = 3;
+close all;
+im = readImage('windows.tif');
+%showImage(im);
+f = baysianDenoising1(im,alpha,radius,std);
+showImage(f);
