@@ -54,33 +54,24 @@ showImage(smallIm);
 smallImRowSize = size(smallIm,1);
 smallImColSize = size(smallIm,2);
 tFim = fft2( smallIm );
+showFFT(tFim);
+tFimtl = tFim(1:smallImRowSize/2,1:smallImColSize/2);
+tFimtr = tFim(1:smallImRowSize/2,smallImColSize/2+1:smallImColSize);
+tFimbl = tFim(smallImRowSize/2+1:smallImRowSize,1:smallImColSize/2);
+tFimbr = tFim(smallImRowSize/2+1:smallImRowSize,smallImColSize/2+1:smallImColSize);
+
 zeroPadded = zeros(smallImRowSize,smallImColSize);
-zeroPaddedFim = [zeroPadded,zeroPadded,zeroPadded;...
-    zeroPadded,tFim,zeroPadded;...
-    zeroPadded,zeroPadded,zeroPadded];
-% padd with zeros
-Fim = zeros(rmax,cmax);
-%FimShifted = fftshift(tFim);
-%FimShifted(1:smallImRowSize,1:smallImColSize) = fftshift(tFim);
+zp32 = zeroPadded(1:32,1:32);
 
-%Fim = fftshift(FimShifted);
-
-
-
-
-
-%Fim(ul(1):br(1),-ul(2):br(2)) = tFim;
-%Fim(1:smallImRowSize/2,1:smallImColSize/2) = tFim(smallImRowSize/2+1:smallImRowSize,smallImColSize/2+1:smallImColSize);
-%Fim(rmax-smallImRowSize/2+1:rmax,1:smallImColSize/2) = tFim(1:smallImRowSize/2,1:smallImColSize/2);
-%Fim(1:smallImRowSize/2,cmax-smallImColSize/2+1:cmax) = ... 
-%   tFim(smallImRowSize/2+1:smallImRowSize,1:smallImColSize/2);
-%Fim(rmax-smallImRowSize/2+1:rmax,cmax-smallImColSize/2+1:cmax) = ...
-%    tFim(1:smallImRowSize/2,1:smallImColSize/2);
-
-showFFT(fftshift(zeroPaddedFim));
-%showFFT(Fim);
-
+zeroPaddedFim = [   zp32,zp32,zp32,zp32;...
+                    zp32,tFimbr,tFimbl,zp32;...
+                    zp32,tFimtr,tFimtl,zp32;...
+                    zp32,zp32,zp32,zp32;
+                 ];
+zeroPaddedFim = fftshift(zeroPaddedFim);
+showFFT(zeroPaddedFim);
 extractedIm = ifft2(zeroPaddedFim);
+extractedIm = real(extractedIm);
 showImage(extractedIm);
 %% windows.tif
 %{
