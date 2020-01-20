@@ -70,7 +70,7 @@ zeroPaddedFim = [   zp32,zp32,zp32,zp32;...
                  ];
 zeroPaddedFim = fftshift(zeroPaddedFim);
 showFFT(zeroPaddedFim);
-extractedIm = ifft2(zeroPaddedFim);
+extractedIm = ifft2(sqrt(smallImRowSize)*zeroPaddedFim);
 extractedIm = real(extractedIm);
 showImage(extractedIm);
 %% windows.tif
@@ -84,4 +84,22 @@ close all;
 im = readImage('windows.tif');
 %showImage(im);
 f = baysianDenoising1(im,alpha,radius,std);
-showImage(f);
+g = bilateralFilt(im,1,20,100);
+showImage(g);
+%% shirt.tif
+close all;
+shirtIm = readImage('shirt.tif');
+showImage(shirtIm);
+radius = 2;
+cleanedIm = cleanImageMedian(shirtIm,radius);
+showImage(cleanedIm);
+%% polar bear
+close all;
+polarIm = readImage('polarBear.tif');
+showImage(polarIm);
+mypause;
+radius = 3;
+cleanedIm = cleanImageMedian(polarIm,radius);
+showImage(cleanedIm);
+%%
+
