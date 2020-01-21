@@ -90,16 +90,22 @@ showImage(g);
 close all;
 shirtIm = readImage('shirt.tif');
 showImage(shirtIm);
-radius = 2;
-cleanedIm = cleanImageMedian(shirtIm,radius);
+fprintf('Displaying origional image\n');
+mypause;
+radX = 1;
+radY = 3;
+cleanedIm = cleanImageMedian(shirtIm,radX,radY);
 showImage(cleanedIm);
+fprintf('Displaying cleaned image\n');
 %% polar bear
 close all;
 polarIm = readImage('polarBear.tif');
 showImage(polarIm);
+fprintf('Displaying origional image\n');
 mypause;
 radius = 3;
 cleanedIm = cleanImageMedian(polarIm,radius);
 showImage(cleanedIm);
+fprintf('Displaying cleaned image\n');
 %%
 
