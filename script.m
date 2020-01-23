@@ -117,6 +117,26 @@ fprintf('sharpening...\n');
 mypause;
 shapenedIm = sharpen(laternsIm,radius,lambda);
 showImage(shapenedIm);
+%% housefront.tif
+close all;
+houseFrontIm = readImage('housefront.tif');
+showImage(houseFrontIm);
+lambda = 0.02;
+%h = cleanImageMean(ones(radius*2+1),radius,std);
+h = zeros(7);
+h(7,4) = 0.3;
+h(4,4) = 0.7;
+f = inversFiltering2(houseFrontIm,h,lambda);
+showImage(f);
+
+%% whitehouse
+close all;
+whitehouseIm = readImage('whitehouse.tif');
+showImage(whitehouseIm);
+lambda = 1.0;
+radius = 20;
+f = desharpen(whitehouseIm,radius,lambda);
+showImage(f);
 
 
 
