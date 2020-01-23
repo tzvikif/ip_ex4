@@ -50,7 +50,7 @@ cmax = size(im,2);
 ul = [min(r),min(c)];   %upper left point
 br = [max(r),max(c)];   %bottom right point
 smallIm = im(ul(1):br(1),ul(2):br(2));
-showImage(smallIm);
+%showImage(smallIm);
 smallImRowSize = size(smallIm,1);
 smallImColSize = size(smallIm,2);
 tFim = fft2( smallIm );
@@ -72,7 +72,7 @@ zeroPaddedFim = fftshift(zeroPaddedFim);
 showFFT(zeroPaddedFim);
 extractedIm = ifft2(sqrt(smallImRowSize)*zeroPaddedFim);
 extractedIm = real(extractedIm);
-showImage(extractedIm);
+showImage(extractedIm./2);
 %% windows.tif
 %{
 Assuming gaussian noise without blurring.
@@ -107,5 +107,17 @@ radius = 3;
 cleanedIm = cleanImageMedian(polarIm,radius);
 showImage(cleanedIm);
 fprintf('Displaying cleaned image\n');
-%%
+%% laterns.tif
+close all;
+laternsIm = readImage('lanterns.tif');
+showImage(laternsIm);
+lambda = 1.0;
+radius = 20;    %for high pass filter
+fprintf('sharpening...\n');
+mypause;
+shapenedIm = sharpen(laternsIm,radius,lambda);
+showImage(shapenedIm);
+
+
+
 
