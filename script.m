@@ -139,9 +139,14 @@ showImage(f);
 close all;
 whitehouseIm = readImage('whitehouse.tif');
 showImage(whitehouseIm);
-lambda = 1.0;
-radius = 20;
-f = desharpen(whitehouseIm,radius,lambda);
+lambda1 = 2.5;
+lambda2 = 0.15;
+radius = 2;
+h =fspecial('gaussian',[radius*2+1,radius*2+1], 5);
+delta = zeros(radius*2+1);
+delta(radius+1,radius+1) = 1;
+S = (delta + lambda1.*(delta - h)); %Bsharp/Dog mask
+f = inverseFiltering2(whitehouseIm,S,lambda2);
 showImage(f);
 
 
