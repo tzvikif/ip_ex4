@@ -1,3 +1,13 @@
+%{
+basically Bsharp. 
+
+   Input:   f - a grayscale image array in the range [0..255].
+            P - the radius for the high pass filter
+            lambda  - ratio parameter
+   Output:   newIm - grayscale image in the range [0..255] same size as im.
+   Method:  sharpen. using high pass filter to add more "power" to high
+   frequencies.
+%}
 function newIm = sharpen(f,P,lambda)
     [M,N]=size(f);
     F=fft2(double(f));

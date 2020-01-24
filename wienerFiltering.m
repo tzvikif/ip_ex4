@@ -1,4 +1,14 @@
-function f = inversFiltering2(g,h,lambda)
+%{
+inverse Filtering assuming convolution +  noise.
+
+   Input:   g - a grayscale image array in the range [0..255].
+            lambda – ratio parameter
+            h - the mask
+   Output:   f - grayscale image in the range [0..255] same size as im.
+   Method:  wienerFiltering. using U,V to decrease power at high
+   frequencies.
+%}
+function f = wienerFiltering(g,h,lambda)
     rows = size(g,1);
     cols = size(g,2);
     u=0:(rows-1);

@@ -70,22 +70,24 @@ zeroPaddedFim = [   zp32,zp32,zp32,zp32;...
                  ];
 zeroPaddedFim = fftshift(zeroPaddedFim);
 showFFT(zeroPaddedFim);
-extractedIm = ifft2(sqrt(smallImRowSize)*zeroPaddedFim);
-extractedIm = real(extractedIm);
-showImage(extractedIm./2);
+extractedIm = ifft2(zeroPaddedFim);
+extractedIm = real(4*extractedIm);
+showImage(extractedIm);
 %% windows.tif
 %{
 Assuming gaussian noise without blurring.
 %}
 alpha = 0.6;
-std = 10;
+std = 5;
 radius = 3;
 close all;
 im = readImage('windows.tif');
-%showImage(im);
-f = baysianDenoising1(im,alpha,radius,std);
-g = bilateralFilt(im,1,20,100);
-showImage(g);
+showImage(im);
+f = inverseFiltering1(im,alpha,radius,std);
+fprintf('inversing...\n');
+mypause;
+%f = bilateralFilt(im,2,5,100);
+showImage(f);
 %% shirt.tif
 close all;
 shirtIm = readImage('shirt.tif');
@@ -122,11 +124,15 @@ close all;
 houseFrontIm = readImage('housefront.tif');
 showImage(houseFrontIm);
 lambda = 0.02;
+fprintf('assuming the convolution was some echo\n');
+fprintf('inversing...\n');
+mypause;
 %h = cleanImageMean(ones(radius*2+1),radius,std);
-h = zeros(7);
-h(7,4) = 0.3;
-h(4,4) = 0.7;
-f = inversFiltering2(houseFrontIm,h,lambda);
+%assuming the convolution was some echo.
+h = zeros(5);
+h(1,3) = 0.3;
+h(3,3) = 0.7;
+f = wienerFiltering(houseFrontIm,h,lambda);
 showImage(f);
 
 %% whitehouse
